@@ -1,21 +1,21 @@
 {
-  "name": "crypto-tip-react",
+  "name": "crypto-tip-jar",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
-"dependencies": {
-  "ethers": "^5.7.2",
-  "magic-sdk": "^10.4.0",
-  "@magic-ext/oauth": "^4.0.0",
-  "react": "^18.2.0",
-  "react-dom": "^18.2.0"
-}
-
+  "dependencies": {
+    "magic-sdk": "^29.0.6",
+    "@magic-ext/oauth": "^4.0.0",
+    "ethers": "^5.7.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
     "vite": "^5.0.0"
   }
+}
