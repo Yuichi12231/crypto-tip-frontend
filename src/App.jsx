@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Magic } from 'magic-sdk';
-import { OAuthExtension } from '@magic-ext/oauth';
-import { ethers } from 'ethers';
+import React, { useState } from "react";
+import { ethers } from "ethers";
+import { Magic } from "magic-sdk";
+import { OAuthExtension } from "@magic-ext/oauth";
 
-const magic = new Magic('pk_live_CBB4E24015C02A64', {
+const magic = new Magic("pk_live_CBB4E24015C02A64", {
   extensions: [new OAuthExtension()],
 });
 
@@ -17,8 +17,8 @@ const ABI = [
 ];
 
 function App() {
-  const [wallet, setWallet] = useState(null);
-  const [handle, setHandle] = useState(null);
+  const [wallet, setWallet] = useState("");
+  const [handle, setHandle] = useState("");
 
   const connectWallet = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -30,16 +30,16 @@ function App() {
 
   const loginWithTwitter = async () => {
     try {
-      const result = await magic.oauth.loginWithPopup({ provider: 'twitter' });
+      const result = await magic.oauth.loginWithPopup({ provider: "twitter" });
       const twitterHandle = result.oauth.userInfo.raw.user.screen_name;
       setHandle(twitterHandle);
-    } catch (err) {
-      console.error('Ошибка авторизации:', err);
+    } catch (error) {
+      console.error("Ошибка авторизации:", error);
     }
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h2>Crypto Tip Jar</h2>
       <button onClick={connectWallet}>🔌 Подключить кошелёк</button>
       <p>Кошелёк: {wallet}</p>
