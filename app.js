@@ -11,9 +11,9 @@ window.addEventListener("load", () => {
   let signer;
   let provider;
 
-  // ✅ Magic доступен как window.Magic
+  // ✅ Подключение OAuth-расширения для Magic SDK
   const magic = new window.Magic("pk_live_CBB4E24015C02A64", {
-    oauthOptions: { providers: ["twitter"] }
+    extensions: [new window.MagicOAuthExtension()]
   });
 
   document.getElementById("connect").onclick = async () => {
