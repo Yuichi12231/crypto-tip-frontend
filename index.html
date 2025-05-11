@@ -2,56 +2,28 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crypto Tip Jar</title>
+  <title>Magic Test</title>
 
-  <!-- ethers.js -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-
-  <!-- Magic SDK с поддержкой OAuth -->
+  <!-- ✅ Обязательно правильная версия Magic SDK -->
   <script src="https://cdn.jsdelivr.net/npm/magic-sdk/dist/magic-sdk.umd.min.js"></script>
 
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background: #f4f4f4;
-    }
+  <script>
+    window.addEventListener("load", () => {
+      console.log("🧪 window loaded");
 
-    button {
-      padding: 0.6rem 1rem;
-      margin: 0.5rem 0;
-      cursor: pointer;
-    }
-
-    input {
-      display: inline-block;
-      margin: 0.5rem 0;
-      padding: 0.4rem;
-      width: 100%;
-    }
-
-    #wallet, #handle {
-      margin: 0.5rem 0;
-      font-weight: bold;
-    }
-  </style>
+      if (typeof Magic !== "undefined") {
+        console.log("✅ Magic загружен!", Magic);
+        const magic = new Magic("pk_live_CBB4E24015C02A64", {
+          oauthOptions: { providers: ["twitter"] }
+        });
+        console.log("🧠 Magic объект создан:", magic);
+      } else {
+        console.error("❌ Magic is NOT defined");
+      }
+    });
+  </script>
 </head>
 <body>
-  <h2>Crypto Tip Jar</h2>
-
-  <button id="connect">🔌 Подключить кошелёк</button>
-  <p id="wallet"></p>
-
-  <button id="login">🔐 Войти через Twitter</button>
-  <p id="handle"></p>
-
-  <input type="text" id="recipient" placeholder="Адрес получателя" />
-  <input type="number" id="amount" placeholder="Сумма в ETH" step="0.001" />
-  <button id="tip">💸 Оставить чаевые</button>
-
-  <script src="./app.js"></script>
+  <h1>Magic Test Page</h1>
 </body>
 </html>
