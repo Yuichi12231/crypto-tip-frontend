@@ -11,7 +11,7 @@ let signer;
 let provider;
 
 // Magic SDK глобально
-const magic = new window.Magic("pk_live_ВСТАВЬ_СВОЙ_API_KEY", {
+const magic = new window.Magic("pk_live_CBB4E24015C02A64", {
   oauthOptions: { providers: ["twitter"] }
 });
 
