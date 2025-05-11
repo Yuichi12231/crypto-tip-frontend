@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ethers } from 'ethers';
 import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
+import { ethers } from 'ethers';
 
 const magic = new Magic('pk_live_CBB4E24015C02A64', {
   extensions: [new OAuthExtension()],
@@ -21,10 +21,6 @@ function App() {
   const [handle, setHandle] = useState(null);
 
   const connectWallet = async () => {
-    if (!window.ethereum) {
-      alert("Установите MetaMask");
-      return;
-    }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
     const signer = provider.getSigner();
@@ -38,12 +34,12 @@ function App() {
       const twitterHandle = result.oauth.userInfo.raw.user.screen_name;
       setHandle(twitterHandle);
     } catch (err) {
-      console.error("Ошибка авторизации:", err);
+      console.error('Ошибка авторизации:', err);
     }
   };
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+    <div style={{ padding: '2rem' }}>
       <h2>Crypto Tip Jar</h2>
       <button onClick={connectWallet}>🔌 Подключить кошелёк</button>
       <p>Кошелёк: {wallet}</p>
