@@ -10,7 +10,6 @@ const ABI = [
 let signer;
 let provider;
 
-// Magic SDK глобально
 const magic = new window.Magic("pk_live_CBB4E24015C02A64", {
   oauthOptions: { providers: ["twitter"] }
 });
@@ -43,6 +42,9 @@ document.getElementById("connect").onclick = async () => {
 document.getElementById("login").onclick = async () => {
   try {
     const result = await magic.oauth.loginWithPopup({ provider: "twitter" });
+
+    console.log("Twitter result:", result);
+
     const twitterHandle = result.oauth.userInfo.raw.user.screen_name;
     document.getElementById("handle").innerText = "Twitter: @" + twitterHandle;
 
@@ -59,7 +61,7 @@ document.getElementById("login").onclick = async () => {
     alert("✅ Зарегистрировано как @" + twitterHandle);
   } catch (err) {
     console.error("Twitter login failed:", err);
-    alert("❌ Ошибка авторизации через Twitter");
+    alert("❌ Ошибка авторизации через Twitter: " + (err?.message || "Неизвестно"));
   }
 };
 
@@ -84,8 +86,8 @@ document.getElementById("tip").onclick = async () => {
 
   try {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-
     const user = await contract.users(recipient);
+
     if (!user.registered) {
       alert("⛔ Получатель не зарегистрирован в системе Tip Jar");
       return;
@@ -98,6 +100,6 @@ document.getElementById("tip").onclick = async () => {
     alert("💸 Чаевые отправлены!\nTX: " + tx.hash);
   } catch (err) {
     console.error("Ошибка отправки чаевых:", err);
-    alert("❌ Ошибка транзакции");
+    alert("❌ Ошибка транзакции: " + (err?.message || "Неизвестно"));
   }
 };
