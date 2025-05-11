@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import { Magic } from 'magic-sdk';
 import { OAuthExtension } from '@magic-ext/oauth';
 
-const magic = new Magic('YOUR_PUBLISHABLE_API_KEY', {
+const magic = new Magic('pk_live_CBB4E24015C02A64', {
   extensions: [new OAuthExtension()],
 });
 
