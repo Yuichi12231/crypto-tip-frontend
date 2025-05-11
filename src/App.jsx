@@ -1,71 +1,37 @@
-import React, { useState } from 'react';
-import { ethers } from 'ethers';
-import { Magic } from 'magic-sdk';
-import { OAuthExtension } from '@magic-ext/oauth';
 
-const CONTRACT_ADDRESS = "0x961d3F83FC8Da943071EA329D628249cA25F5B05";
-const ABI = [
-  "function register(string handle)",
-  "function sendTip(address to) payable",
-  "function getMyHandle() view returns (string)",
-  "function getReceivedTips(address user) view returns (uint256)",
-  "function users(address) view returns (string twitterHandle, bool registered)"
-];
-
-const magic = new Magic('pk_live_CBB4E24015C02A64', {
-  extensions: [new OAuthExtension()]
-});
+import { useState } from 'react';
+import { magic } from './magic';
 
 function App() {
-  const [wallet, setWallet] = useState('');
+  const [address, setAddress] = useState('');
   const [handle, setHandle] = useState('');
-  const [recipient, setRecipient] = useState('');
-  const [amount, setAmount] = useState('');
 
-  async function connectWallet() {
+  const connectWallet = async () => {
     if (!window.ethereum) return alert('Установи MetaMask');
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    setWallet(address);
-  }
 
-  async function loginWithTwitter() {
-    await magic.oauth.loginWithPopup({ provider: 'twitter' });
-    const result = await magic.oauth.getRedirectResult();
-    const twitterHandle = result.oauth.userInfo.raw.user.screen_name;
-    setHandle('@' + twitterHandle);
+    const [addr] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    setAddress(addr);
+  };
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-    const tx = await contract.register("@" + twitterHandle);
-    await tx.wait();
-  }
-
-  async function sendTip() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-    const user = await contract.users(recipient);
-    if (!user.registered) return alert("⛔ Получатель не зарегистрирован");
-    const tx = await contract.sendTip(recipient, {
-      value: ethers.utils.parseEther(amount)
-    });
-    alert("💸 Чаевые отправлены! TX: " + tx.hash);
-  }
+  const loginWithTwitter = async () => {
+    try {
+      await magic.oauth.loginWithPopup({ provider: 'twitter' });
+      const userInfo = await magic.user.getInfo();
+      setHandle(userInfo.oauth?.userInfo?.screen_name || 'Не найден');
+    } catch (err) {
+      console.error('Ошибка входа:', err);
+      alert('❌ Ошибка авторизации через Twitter');
+    }
+  };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '2rem auto' }}>
-      <h2>Crypto Tip Jar</h2>
-      <button onClick={connectWallet}>🔌 Подключить MetaMask</button>
-      <p>Кошелёк: {wallet}</p>
+    <div style={{ padding: 20 }}>
+      <h1>Crypto Tip Jar</h1>
+      <button onClick={connectWallet}>🔌 Подключить кошелёк</button>
+      <p>Кошелёк: {address}</p>
+
       <button onClick={loginWithTwitter}>🔐 Войти через Twitter</button>
-      <p>{handle}</p>
-      <input placeholder="Адрес получателя" onChange={e => setRecipient(e.target.value)} />
-      <input placeholder="Сумма в ETH" onChange={e => setAmount(e.target.value)} />
-      <button onClick={sendTip}>💸 Оставить чаевые</button>
+      <p>Twitter: @{handle}</p>
     </div>
   );
 }
