@@ -11,8 +11,8 @@ window.addEventListener("load", () => {
   let signer;
   let provider;
 
-  // ✅ Используем window.Magic, т.к. подключена UMD-версия
-  const magic = new window.Magic("pk_live_CBB4E24015C02A64", {
+  // ✅ Ключевой момент — Magic.default
+  const magic = new window.Magic.default("pk_live_CBB4E24015C02A64", {
     oauthOptions: { providers: ["twitter"] }
   });
 
