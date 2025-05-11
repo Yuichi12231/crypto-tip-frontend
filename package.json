@@ -1,5 +1,5 @@
 {
-  "name": "crypto-tip-react-v11",
+  "name": "crypto-tip-react",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
