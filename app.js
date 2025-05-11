@@ -1,4 +1,6 @@
 window.addEventListener("load", () => {
+  console.log("window loaded");
+
   const CONTRACT_ADDRESS = "0x961d3F83FC8Da943071EA329D628249cA25F5B05";
   const ABI = [
     "function register(string handle)",
@@ -11,7 +13,6 @@ window.addEventListener("load", () => {
   let signer;
   let provider;
 
-  // ✅ Подключение OAuth-расширения для Magic SDK
   const magic = new window.Magic("pk_live_CBB4E24015C02A64", {
     extensions: [new window.MagicOAuthExtension()]
   });
