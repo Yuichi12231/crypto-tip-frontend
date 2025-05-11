@@ -1,5 +1,5 @@
 {
-  "name": "crypto-tip-jar",
+  "name": "crypto-tip-react",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
@@ -8,13 +8,13 @@
   },
   "dependencies": {
     "ethers": "^5.7.2",
-    "magic-sdk": "latest",
+    "magic-sdk": "^10.3.1",
     "@magic-ext/oauth": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.0.3",
-    "vite": "^5.0.10"
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^5.0.0"
   }
 }
