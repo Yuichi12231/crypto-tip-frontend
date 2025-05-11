@@ -11,8 +11,8 @@ window.addEventListener("load", () => {
   let signer;
   let provider;
 
-  // ✅ Ключевой момент — Magic.default
-  const magic = new window.Magic.default("pk_live_CBB4E24015C02A64", {
+  // ✅ Magic доступен как window.Magic
+  const magic = new window.Magic("pk_live_CBB4E24015C02A64", {
     oauthOptions: { providers: ["twitter"] }
   });
 
@@ -44,7 +44,6 @@ window.addEventListener("load", () => {
   document.getElementById("login").onclick = async () => {
     try {
       const result = await magic.oauth.loginWithPopup({ provider: "twitter" });
-
       console.log("Twitter login result:", result);
 
       const twitterHandle = result.oauth.userInfo.raw.user.screen_name;
