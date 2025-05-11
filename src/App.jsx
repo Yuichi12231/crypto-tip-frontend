@@ -1,35 +1,52 @@
+import React, { useState } from 'react';
+import { ethers } from 'ethers';
+import { Magic } from 'magic-sdk';
+import { OAuthExtension } from '@magic-ext/oauth';
 
-import { useState } from 'react';
-import { magic } from './magic';
+const magic = new Magic('YOUR_PUBLISHABLE_API_KEY', {
+  extensions: [new OAuthExtension()],
+});
+
+const CONTRACT_ADDRESS = "0x961d3F83FC8Da943071EA329D628249cA25F5B05";
+const ABI = [
+  "function register(string handle)",
+  "function sendTip(address to) payable",
+  "function getMyHandle() view returns (string)",
+  "function getReceivedTips(address user) view returns (uint256)",
+  "function users(address) view returns (string twitterHandle, bool registered)"
+];
 
 function App() {
-  const [address, setAddress] = useState('');
-  const [handle, setHandle] = useState('');
+  const [wallet, setWallet] = useState(null);
+  const [handle, setHandle] = useState(null);
 
   const connectWallet = async () => {
-    if (!window.ethereum) return alert('Установи MetaMask');
-
-    const [addr] = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    setAddress(addr);
+    if (!window.ethereum) {
+      alert("Установите MetaMask");
+      return;
+    }
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    setWallet(address);
   };
 
   const loginWithTwitter = async () => {
     try {
-      await magic.oauth.loginWithPopup({ provider: 'twitter' });
-      const userInfo = await magic.user.getInfo();
-      setHandle(userInfo.oauth?.userInfo?.screen_name || 'Не найден');
+      const result = await magic.oauth.loginWithPopup({ provider: 'twitter' });
+      const twitterHandle = result.oauth.userInfo.raw.user.screen_name;
+      setHandle(twitterHandle);
     } catch (err) {
-      console.error('Ошибка входа:', err);
-      alert('❌ Ошибка авторизации через Twitter');
+      console.error("Ошибка авторизации:", err);
     }
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Crypto Tip Jar</h1>
+    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+      <h2>Crypto Tip Jar</h2>
       <button onClick={connectWallet}>🔌 Подключить кошелёк</button>
-      <p>Кошелёк: {address}</p>
-
+      <p>Кошелёк: {wallet}</p>
       <button onClick={loginWithTwitter}>🔐 Войти через Twitter</button>
       <p>Twitter: @{handle}</p>
     </div>
