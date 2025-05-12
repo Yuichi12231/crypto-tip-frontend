@@ -1,0 +1,22 @@
+{
+  "name": "magic-twitter-wallet-auth",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "magic-sdk": "^11.1.0",
+    "@magic-ext/oauth": "^4.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ethers": "^6.10.0",
+    "viem": "^1.31.0",
+    "wagmi": "^1.6.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "vite": "^5.1.0"
+  }
+}
