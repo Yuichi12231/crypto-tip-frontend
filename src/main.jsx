@@ -6,7 +6,7 @@ import { WagmiProvider, createConfig, http } from "wagmi";
 import { mainnet, base, polygon } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { metaMask, walletConnect, coinbaseWallet } from "wagmi/connectors";
+import { metaMask, walletConnect, coinbaseWallet } from "@wagmi/connectors";
 
 const config = createConfig({
   chains: [mainnet, base, polygon],
@@ -17,7 +17,7 @@ const config = createConfig({
   },
   connectors: [
     metaMask(),
-    walletConnect({ projectId: "demo" }), // replace with your real WalletConnect Project ID
+    walletConnect({ projectId: "demo" }), // Замените "demo" на ваш реальный WalletConnect Project ID
     coinbaseWallet({ appName: "MagicWalletAuth" }),
   ],
   ssr: true,
